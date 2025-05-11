@@ -13,6 +13,6 @@ Simply paste the link in as a command line argument. This is not guaranteed to b
 4. For books that are translations, the Cite Book templete has the parameters nessary to indicate the original and tranlsated title as well as the authors and translators. You'll need to do that manually.
 
 
-Try not to spam, or else you'll Google Books might send back a 503. 
+Try not to spam, or else Google Books might send back a 503. 
 
 I'll improve this later on to include support for DOI's.
