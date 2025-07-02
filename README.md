@@ -1,6 +1,7 @@
 # Google-books-to-Wiki-Cite-Book-Templete
 This is a simple python script to convert links on google books into Wikipedia's cite book templete. https://en.wikipedia.org/wiki/Template:Cite_book
 
+Usage: python citebook.py <url_or_doi> [--debug]
 
 Simply paste the link in as a command line argument. This is not guaranteed to be 100% accurate, simply to create a simple baseline to avoid the manual work. Known problems are:
 
@@ -15,4 +16,3 @@ Simply paste the link in as a command line argument. This is not guaranteed to b
 
 Try not to spam, or else Google Books might send back a 503. 
 
-I'll improve this later on to include support for DOI's.
