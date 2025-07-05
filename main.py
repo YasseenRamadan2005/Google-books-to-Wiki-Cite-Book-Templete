@@ -115,6 +115,30 @@ def generate_cite_journal(json_data, doi):
 
     return f"""{{{{cite journal {author_string} |date={year} |title={json_data.get("title", '')} |url=https://doi.org/{doi} |journal={json_data.get("container-title", '')} |volume={json_data.get("volume", '')} |issue={json_data.get("issue", '')} |publisher={json_data.get("publisher", '')} |pages={json_data.get("page", '')} |doi={doi} |access-date={today}}}}}"""
 
+def generate_cite_report(json_data, doi):
+    authors = json_data.get("author", [])
+    author_string = generate_author_fields(authors)
+
+    title = json_data.get("title", "")
+    work = json_data.get("container-title", [""])[0] if json_data.get("container-title") else ""
+    publisher = json_data.get("publisher", "")
+    url = json_data.get("URL", f"https://doi.org/{doi}")
+
+    issued_date_parts = json_data.get("issued", {}).get("date-parts", [])
+    year = str(issued_date_parts[0][0]) if issued_date_parts else ""
+
+    today = datetime.date.today().isoformat()
+
+    # Attempt to extract institution name and location
+    institutions = json_data.get("institution", [])
+    institution_name = institutions[0].get("name", "") if institutions else ""
+    location = ", ".join(institutions[0].get("place", [])) if institutions and "place" in institutions[0] else ""
+
+    # Degree is often not available, but could be inferred manually or left blank
+    degree = "Thesis"  # Placeholder; you can leave it blank or customize it
+
+    return f"""{{{{cite thesis {author_string} |date={year} |title={title} |url={url} |work={work} |degree={degree} |location={location} |publisher={publisher} |url-status=live |access-date={today}}}}}"""
+
 
 def is_doi(input_str):
     return bool(re.match(r'^10\.\d{4,9}/[-._;()/:A-Z0-9]+$', input_str, re.I)) or input_str.lower().startswith("https://doi.org/")
@@ -154,6 +178,8 @@ def main():
                 citation = generate_cite_book_from_doi(data, doi)
             elif doi_type == "book-chapter":
                 citation = generate_cite_book_chapter(data, doi)
+            elif doi_type == "report":
+                citation = generate_cite_report(data, doi)
             else:
                 print(f"Unsupported DOI type: {doi_type}")
                 sys.exit(1)
